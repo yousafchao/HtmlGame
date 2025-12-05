@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CyberMonkeyGo｜2合1（五子棋 + 打砖块）</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Manim 渲染视频：作为赛博背景（自动循环静音） -->
+  <video id="bgVideo" class="bg-video" autoplay muted loop playsinline>
+    <source src="/static/attractor.mp4" type="video/mp4">
+  </video>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="logo">CYBER<span class="logo-accent">MONKEY</span>ARCADE</div>
+      <div class="subtitle">2合1：五子棋（人类 vs 猴子AI） + 打砖块（马斯克猴子）</div>
+    </header>
+
+    <!-- 主菜单 -->
+    <section class="menu card">
+      <h2>开始界面</h2>
+      <div class="menu-buttons">
+        <button id="btnGo">进入五子棋</button>
+        <button id="btnBreak" class="ghost">进入打砖块</button>
+      </div>
+      <div class="hint">提示：该游戏过于烧脑，请猴子在实验员家长陪同下游玩。</div>
+    </section>
+
+    <!-- 五子棋（复用你现有页面结构：canvas + 右侧控制） -->
+    <main id="gomokuRoot" class="main hidden">
+      <section class="board-zone">
+        <canvas id="boardCanvas" width="720" height="720"></canvas>
+        <div class="hint">点击棋盘落子。先手：你（人类）。</div>
+      </section>
+
+      <aside class="panel">
+        <div class="card">
+          <h2>对局控制</h2>
+          <label class="row">
+            <span>难度</span>
+            <select id="difficulty">
+              <option value="easy">简单（猴子会犯错）</option>
+              <option value="normal" selected>普通（聪明但不阴间）</option>
+              <option value="hard">困难（会提前想两步）</option>
+            </select>
+          </label>
+
+          <div class="row">
+            <button id="newGameBtn">新开一局</button>
+            <button id="soundBtn" class="ghost">音效：开</button>
+          </div>
+
+          <div class="row">
+            <div class="pill">回合：<span id="turnText">-</span></div>
+            <div class="pill">计时：<span id="timerText">-</span>s</div>
+          </div>
+
+          <div class="row">
+            <button id="backMenuFromGo" class="ghost">返回菜单</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>战况播报</h2>
+          <div id="statusText" class="status">准备就绪：点击“新开一局”。</div>
+          <div class="legend">
+            <div class="dot human"></div><span>你（人类）</span>
+            <div class="dot monkey"></div><span>赛博猴子</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>规则/提示</h2>
+          <ul class="rules">
+            <li>五子连珠即胜利（横/竖/斜都算）。</li>
+            <li>每回合倒计时结束后，系统会帮你随机落在一个空格（防止卡住）。</li>
+            <li>困难模式会“想两步”，更需要你提前堵冲四/活四。</li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <!-- 打砖块（一个独立 canvas） -->
+    <section id="breakoutRoot" class="card hidden">
+      <div class="row" style="justify-content: space-between;">
+        <h2 style="margin:0;">马斯克猴子打砖块</h2>
+        <button id="backMenuFromBreak" class="ghost">返回菜单</button>
+      </div>
+      <div class="hint">操作：← → 或 A/D 移动挡板。空格开始/暂停。</div>
+      <canvas id="breakoutCanvas" width="900" height="520" style="width:100%;height:auto;border-radius:14px;"></canvas>
+    </section>
+
+    <footer class="footer">
+      <span>© CyberMonkeyGo｜绝命麻师的脑机接口</span>
+    </footer>
+  </div>
+
+  <!-- 菜单逻辑：负责切换显示哪个游戏 -->
+  <script src="/static/menu.js"></script>
+
+  <!-- 五子棋逻辑（你原来的 app.js 复制成 gomoku.js 更安全） -->
+  <script src="/static/gomoku.js"></script>
+
+  <!-- 打砖块逻辑 -->
+  <script src="/static/breakout.js"></script>
+</body>
+</html>
